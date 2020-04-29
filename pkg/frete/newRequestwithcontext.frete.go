@@ -37,8 +37,7 @@ func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, gf *models.GetFrete, 
 		return
 	}
 
-	var body []byte
-	body, err = ioutil.ReadAll(response.Body)
+	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		errXml := fmt.Sprintf(models.DefaultXmlError, nCdServico, 11, "Error, nCdServico invalido")
 		chResult <- errXml

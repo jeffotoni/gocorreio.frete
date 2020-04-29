@@ -60,7 +60,7 @@ import (
 )
 
 var (
-   Port = ":8086"
+   Port = ":8087"
 )
 
 func main() {
@@ -81,9 +81,9 @@ func main() {
 
 ```
 
-Você pode fazer seu próprio build usando Go, ou você poderá utilizar docker-compose. O server irá funcionar na porta 8086, mas caso queira alterar basta ir na pasta /config.
+Você pode fazer seu próprio build usando Go, ou você poderá utilizar docker-compose. O server irá funcionar na porta 8087, mas caso queira alterar basta ir na pasta /config.
 
-Para subir o serviço para seu Servidor ou sua máquina local basta compilar, e a porta 8086 será aberta para consumir o endpoint /api/v1/{etiqueta}
+Para subir o serviço para seu Servidor ou sua máquina local basta compilar, e a porta 8087 será aberta para consumir o endpoint /api/v1/{etiqueta}
 
 # Install gocorreio.frete
 
@@ -95,7 +95,7 @@ $ git clone https://github.com/jeffotoni/gocorreio.frete
 $ cd gocorreio.frete
 $ go build -ldflags="-s -w" 
 $ ./gocorreio.frete
-$ 2020/04/29 12:56:46 Port: :8086
+$ 2020/04/29 12:56:46 Port: :8087
 
 ```
 
@@ -115,7 +115,7 @@ $ docker-compose ps
 Creating gocorreio.frete ... done
 Name    Command   State           Ports         
 ------------------------------------------------
-gocorreio.frete   /gocorreio.frete    Up      0.0.0.0:8086->8086/tcp
+gocorreio.frete   /gocorreio.frete    Up      0.0.0.0:8087->8087/tcp
 -e Generated Run docker-compose [ok] 
 
 ```
@@ -142,7 +142,7 @@ $ curl -i \
    "StrRetorno":"xml",
    "servicos":["04162","04669","1"]
 }'
--XPOST "http://localhost:8086/frete"
+-XPOST "http://localhost:8087/frete"
 ```
 
 ## Saida Json

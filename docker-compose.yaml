@@ -14,7 +14,7 @@ services:
            aliases:
               - gocorreio.frete.local.com
     ports:
-      - 8086:8086
+      - 8087:8087
     restart: always
 
 networks:
