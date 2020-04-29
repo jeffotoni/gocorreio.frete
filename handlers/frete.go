@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"github.com/jeffotoni/gocorreio.frete/models"
 	"github.com/jeffotoni/gocorreio.frete/pkg/frete"
+	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 func Frete(w http.ResponseWriter, r *http.Request) {
@@ -20,9 +22,20 @@ func Frete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var gf models.GetFrete
-	err := json.NewDecoder(r.Body).Decode(&gf)
+	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
+		println("ReadAll: ", err.Error())
+		http.Error(w, `{"msg":"Ocorreu um erro no ReadAll"}`, http.StatusBadRequest)
+		return
+	}
+	println("..........................")
+	println(string(b))
+
+	var gf models.GetFrete
+	err = json.NewDecoder(strings.NewReader(string(b))).Decode(&gf)
+	if err != nil {
+		println()
+		println(err.Error())
 		http.Error(w, `{"msg":"Ocorreu um erro ao tentar decodificar o json recebido!"}`, http.StatusBadRequest)
 		return
 	}
