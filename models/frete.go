@@ -19,18 +19,18 @@ type ResultCServico struct {
 }
 
 type GetFrete struct {
-	NCdEmpresa          string `json:"ncdempresa"`
-	SDsSenha            string `json:"sdssenha"`
-	SCepOrigem          string `json:"sceporigem"`
-	SCepDestino         string `json:"scepdestino"`
-	NVlPeso             int    `json:"nvlpeso"`
-	NCdFormato          int    `json:"ncdformato"`
-	NVlComprimento      int    `json:"nvlcomprimento"`
-	NVlAltura           int    `json:"nvlaltura"`
-	NVlLargura          int    `json:"nvllargura"`
-	SCdMaoPropria       string `json:"scdmaopropria"`
-	NVlValorDeclarado   string `json:"nvlvalordeclarado"`
-	SCdAvisoRecebimento string `json:"scdavisorecebimento"`
+	NCdEmpresa          string  `json:"ncdempresa"`
+	SDsSenha            string  `json:"sdssenha"`
+	SCepOrigem          string  `json:"sceporigem"`
+	SCepDestino         string  `json:"scepdestino"`
+	NVlPeso             float32 `json:"nvlpeso"`
+	NCdFormato          int     `json:"ncdformato"`
+	NVlComprimento      int     `json:"nvlcomprimento"`
+	NVlAltura           int     `json:"nvlaltura"`
+	NVlLargura          int     `json:"nvllargura"`
+	SCdMaoPropria       string  `json:"scdmaopropria"`
+	NVlValorDeclarado   string  `json:"nvlvalordeclarado"`
+	SCdAvisoRecebimento string  `json:"scdavisorecebimento"`
 	//NCdServico          string   `json:"ncdservico"`
 	NVlDiametro int      `json:"nvldiametro"`
 	StrRetorno  string   `json:"strretorno"`

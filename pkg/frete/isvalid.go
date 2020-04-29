@@ -22,7 +22,7 @@ func IsValid(gf *models.GetFrete) error {
 		return errors.New(`{"msg":"Campo sCepDestino é obrigatorio"}`)
 
 	}
-	if gf.NVlPeso <= 0 {
+	if gf.NVlPeso <= float32(0) {
 		return errors.New(`{"msg":"Campo nVlPeso é obrigatorio"}`)
 
 	}
