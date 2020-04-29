@@ -1,0 +1,22 @@
+version: '3.5'
+
+services:
+  gocorreio.frete:
+    image: jeffotoni/gocorreio.frete
+    container_name: gocorreio.frete
+    hostname: gocorreio.frete
+    domainname: gocorreio.frete.local.com
+    environment:
+      - "TZ=America/Sao_Paulo"
+      - "API_ENV=prod"
+    networks:
+        guulawork:
+           aliases:
+              - gocorreio.frete.local.com
+    ports:
+      - 8086:8086
+    restart: always
+
+networks:
+  guulawork:
+      driver: bridge
