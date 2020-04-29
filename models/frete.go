@@ -43,7 +43,7 @@ type ResultCServicoXML string
 // 	Body []ResultCServicoMin
 // }
 
-type ServicosXml struct {
+type ServicosXML struct {
 	XMLName  xml.Name `xml:"Servicos"`
 	Text     string   `xml:",chardata"`
 	CServico struct {

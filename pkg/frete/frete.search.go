@@ -44,7 +44,7 @@ func Search(gf *models.GetFrete) (string, error) {
 	var sjsonV []models.ResultCServico
 
 	for t := range chResult {
-		var sxml models.ServicosXml
+		var sxml models.ServicosXML
 		var sjson models.ResultCServico
 
 		d := xml.NewDecoder(strings.NewReader(t))

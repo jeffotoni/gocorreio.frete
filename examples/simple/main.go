@@ -12,7 +12,7 @@ func main() {
 		SDsSenha:            "senha-empresa-aqui",
 		SCepOrigem:          "01405001",
 		SCepDestino:         "06765000",
-		NVlPeso:             1,
+		NVlPeso:             1.5,
 		NCdFormato:          1,
 		NVlComprimento:      28,
 		NVlAltura:           4,

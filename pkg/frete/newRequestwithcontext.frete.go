@@ -11,16 +11,16 @@ import (
 	"time"
 )
 
-var endpoint string = `http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?nCdEmpresa=%s&sDsSenha=%s&sCepOrigem=%s&sCepDestino=%s&nVlPeso=%d&nCdFormato=%d&nVlComprimento=%d&nVlAltura=%d&nVlLargura=%d&sCdMaoPropria=%s&nVlValorDeclarado=%s&sCdAvisoRecebimento=%s&nCdServico=%s&nVlDiametro=%d&StrRetorno=%s`
+var endpoint string = `https://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?nCdEmpresa=%s&sDsSenha=%s&sCepOrigem=%s&sCepDestino=%s&nVlPeso=%.2f&nCdFormato=%d&nVlComprimento=%d&nVlAltura=%d&nVlLargura=%d&sCdMaoPropria=%s&nVlValorDeclarado=%s&sCdAvisoRecebimento=%s&nCdServico=%s&nVlDiametro=%d&StrRetorno=%s`
 
 func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, gf *models.GetFrete, nCdServico string, chResult chan<- string) {
 	defer wg.Done()
 
 	endpointNow := fmt.Sprintf(endpoint, gf.NCdEmpresa, gf.SDsSenha, gf.SCepOrigem,
-		gf.SCepDestino, gf.NCdFormato, gf.NVlPeso, gf.NVlComprimento, gf.NVlAltura, gf.NVlLargura, gf.SCdMaoPropria, gf.NVlValorDeclarado,
+		gf.SCepDestino, gf.NVlPeso, gf.NCdFormato, gf.NVlComprimento, gf.NVlAltura, gf.NVlLargura, gf.SCdMaoPropria, gf.NVlValorDeclarado,
 		gf.SCdAvisoRecebimento, nCdServico, gf.NVlDiametro, gf.StrRetorno)
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond*7000)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*8)
 	defer cancel()
 
 	runtime.Gosched()
@@ -36,7 +36,8 @@ func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, gf *models.GetFrete, 
 		return
 	}
 
-	body, err := ioutil.ReadAll(response.Body)
+	var body []byte
+	body, err = ioutil.ReadAll(response.Body)
 	if err != nil {
 		errXml := fmt.Sprintf(models.DefaultXmlError, nCdServico, 11, "Error, nCdServico invalido")
 		chResult <- errXml
