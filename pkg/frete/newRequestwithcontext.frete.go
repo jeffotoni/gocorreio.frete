@@ -31,6 +31,7 @@ func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, gf *models.GetFrete, 
 
 	response, err := http.DefaultClient.Do(req)
 	if err != nil {
+		println(endpointNow)
 		errXml := fmt.Sprintf(models.DefaultXmlError, nCdServico, 10, "Error, timout, url do correio nao respondeu.")
 		chResult <- errXml
 		return
