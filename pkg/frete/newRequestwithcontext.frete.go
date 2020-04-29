@@ -20,7 +20,7 @@ func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, gf *models.GetFrete, 
 		gf.SCepDestino, gf.NVlPeso, gf.NCdFormato, gf.NVlComprimento, gf.NVlAltura, gf.NVlLargura, gf.SCdMaoPropria, gf.NVlValorDeclarado,
 		gf.SCdAvisoRecebimento, nCdServico, gf.NVlDiametro, gf.StrRetorno)
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
 
 	runtime.Gosched()
@@ -31,8 +31,8 @@ func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, gf *models.GetFrete, 
 
 	response, err := http.DefaultClient.Do(req)
 	if err != nil {
-		println(err.Error())
-		errXml := fmt.Sprintf(models.DefaultXmlError, nCdServico, 10, "Error, timeout, url do correio nao respondeu.")
+		//println(err.Error())
+		errXml := fmt.Sprintf(models.DefaultXmlError, nCdServico, 10, "Error, timeout, url do correio nao respondeu, confira seu proxy talvez está bloqueando sua chamada.")
 		chResult <- errXml
 		return
 	}
