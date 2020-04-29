@@ -2,3 +2,4 @@ deploy.aws.sh
 deploy.hub.docker.sh
 docker-compose.aws.yaml
 deploy.gocorreio.frete.aws.sh
+gocorreio.frete
