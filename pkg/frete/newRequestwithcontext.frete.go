@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-var endpoint string = `https://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?nCdEmpresa=%s&sDsSenha=%s&sCepOrigem=%s&sCepDestino=%s&nVlPeso=%.2f&nCdFormato=%d&nVlComprimento=%d&nVlAltura=%d&nVlLargura=%d&sCdMaoPropria=%s&nVlValorDeclarado=%s&sCdAvisoRecebimento=%s&nCdServico=%s&nVlDiametro=%d&StrRetorno=%s`
+var endpoint string = `http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?nCdEmpresa=%s&sDsSenha=%s&sCepOrigem=%s&sCepDestino=%s&nVlPeso=%.2f&nCdFormato=%d&nVlComprimento=%d&nVlAltura=%d&nVlLargura=%d&sCdMaoPropria=%s&nVlValorDeclarado=%s&sCdAvisoRecebimento=%s&nCdServico=%s&nVlDiametro=%d&StrRetorno=%s`
 
 func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, gf *models.GetFrete, nCdServico string, chResult chan<- string) {
 	defer wg.Done()
