@@ -1,4 +1,4 @@
-# gocorreio.frete
+# Frete gocorreio.frete
 
 Um simples pacote para buscar nos correios os fretes, onde você terá o custo do frete, o json que irá passar deverá conter a senha da sua conta do correio para que os valores correspondem a sua realidade.
 
@@ -14,16 +14,33 @@ gocorreio.frete também poderá ser usado como Lib, ou seja você irá conseguir
 package main
 
 import (
-	"fmt"
-	"github.com/jeffotoni/gocorreio.frete/pkg/frete"
-   "github.com/jeffotoni/gocorreio.frete/pkg/models"
+   "fmt"
+   "github.com/jeffotoni/gocorreio.frete/models"
+   "github.com/jeffotoni/gocorreio.frete/pkg/frete"
 )
 
 func main() {
-   var gf = models.GetFrete{}
-	result, err := frete.Search()
-	fmt.Println(err)
-	fmt.Println(result)
+   var gf = &models.GetFrete{
+      NCdEmpresa:          "codigo-empresa-aqui",
+      SDsSenha:            "senha-empresa-aqui",
+      SCepOrigem:          "01405001",
+      SCepDestino:         "06765000",
+      NVlPeso:             1,
+      NCdFormato:          1,
+      NVlComprimento:      28,
+      NVlAltura:           4,
+      NVlLargura:          13,
+      SCdMaoPropria:       "N",
+      NVlValorDeclarado:   "0,00",
+      SCdAvisoRecebimento: "N",
+      NVlDiametro:         0,
+      StrRetorno:          "xml",
+      Servicos:            []string{"04162", "04669", "1"},
+   }
+
+   result, err := frete.Search(gf)
+   fmt.Println(err)
+   fmt.Println(result)
 }
 
 ```
@@ -32,13 +49,41 @@ Ou se preferir for criar seu próprio serviço e sua api basta fazer como exempl
 Existe em examples dois exemplos de commo integrar a lib gocorreio.frete em seu projeto.
 
 ```bash
+package main
 
+import (
+   "encoding/json"
+   "github.com/jeffotoni/gocorreio.frete/models"
+   "github.com/jeffotoni/gocorreio.frete/pkg/frete"
+   "log"
+   "net/http"
+)
+
+var (
+   Port = ":8086"
+)
+
+func main() {
+
+   mux := http.NewServeMux()
+   mux.HandleFunc("/frete", HandlerFrete)
+   mux.HandleFunc("/frete/", NotFound)
+   mux.HandleFunc("/", NotFound)
+
+   server := &http.Server{
+      Addr:    Port,
+      Handler: mux,
+   }
+
+   log.Println("port", Port)
+   log.Fatal(server.ListenAndServe())
+}
 
 ```
 
-Você pode fazer seu próprio build usando Go, ou você poderá utilizar docker-compose. O server irá funcionar na porta 8085, mas caso queira alterar basta ir na pasta /config.
+Você pode fazer seu próprio build usando Go, ou você poderá utilizar docker-compose. O server irá funcionar na porta 8086, mas caso queira alterar basta ir na pasta /config.
 
-Para subir o serviço para seu Servidor ou sua máquina local basta compilar, e a porta 8085 será aberta para consumir o endpoint /api/v1/{etiqueta}
+Para subir o serviço para seu Servidor ou sua máquina local basta compilar, e a porta 8086 será aberta para consumir o endpoint /api/v1/{etiqueta}
 
 # Install gocorreio.frete
 
@@ -50,7 +95,7 @@ $ git clone https://github.com/jeffotoni/gocorreio.frete
 $ cd gocorreio.frete
 $ go build -ldflags="-s -w" 
 $ ./gocorreio.frete
-$ 2020/04/21 12:56:46 Port: :8085
+$ 2020/04/29 12:56:46 Port: :8086
 
 ```
 
@@ -70,7 +115,7 @@ $ docker-compose ps
 Creating gocorreio.frete ... done
 Name    Command   State           Ports         
 ------------------------------------------------
-gocorreio.frete   /gocorreio.frete    Up      0.0.0.0:8085->8085/tcp
+gocorreio.frete   /gocorreio.frete    Up      0.0.0.0:8086->8086/tcp
 -e Generated Run docker-compose [ok] 
 
 ```

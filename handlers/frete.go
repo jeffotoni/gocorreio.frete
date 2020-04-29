@@ -27,72 +27,9 @@ func Frete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var StrRetorno string = "xml"
-
-	if len(gf.NCdEmpresa) <= 0 {
-		http.Error(w, "Campo nCdEmpresa é obrigatorio", http.StatusBadRequest)
+	if err := frete.IsValid(&gf); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
-	}
-	if len(gf.SDsSenha) <= 0 {
-		http.Error(w, "Campo sDsSenha é obrigatorio", http.StatusBadRequest)
-		return
-	}
-	if len(gf.SCepOrigem) <= 0 {
-		http.Error(w, "Campo sCepOrigem é obrigatorio", http.StatusBadRequest)
-		return
-	}
-	if len(gf.SCepDestino) <= 0 {
-		http.Error(w, "Campo sCepDestino é obrigatorio", http.StatusBadRequest)
-		return
-	}
-	if gf.NVlPeso <= 0 {
-		http.Error(w, "Campo nVlPeso é obrigatorio", http.StatusBadRequest)
-		return
-	}
-	if gf.NCdFormato <= 0 {
-		http.Error(w, "Campo nCdFormato é obrigatorio", http.StatusBadRequest)
-		return
-	}
-	if gf.NVlComprimento <= 0 {
-		http.Error(w, "Campo nVlComprimento é obrigatorio", http.StatusBadRequest)
-		return
-	}
-	if gf.NVlAltura <= 0 {
-		http.Error(w, "Campo nVlAltura é obrigatorio", http.StatusBadRequest)
-		return
-	}
-	if gf.NVlLargura <= 0 {
-		http.Error(w, "Campo nVlLargura é obrigatorio", http.StatusBadRequest)
-		return
-	}
-	if len(gf.SCdMaoPropria) <= 0 {
-		http.Error(w, "Campo sCdMaoPropria é obrigatorio", http.StatusBadRequest)
-		return
-	}
-	if len(gf.NVlValorDeclarado) <= 0 {
-		http.Error(w, "Campo nVlValorDeclarado é obrigatorio", http.StatusBadRequest)
-		return
-	}
-	if len(gf.SCdAvisoRecebimento) <= 0 {
-		http.Error(w, "Campo sCdAvisoRecebimento é obrigatorio", http.StatusBadRequest)
-		return
-	}
-	// if len(gf.NCdServico) <= 0 {
-	// 	http.Error(w, "Campo nCdServico é obrigatorio", http.StatusBadRequest)
-	// 	return
-	// }
-	if gf.NVlDiametro < 0 {
-		http.Error(w, "Campo nVlDiametro é obrigatorio", http.StatusBadRequest)
-		return
-	}
-
-	if len(gf.Servicos) <= 0 {
-		http.Error(w, "Campo Servicos é obrigatorio", http.StatusBadRequest)
-		return
-	}
-
-	if len(gf.StrRetorno) <= 0 {
-		gf.StrRetorno = StrRetorno
 	}
 
 	result, err := frete.Search(&gf)

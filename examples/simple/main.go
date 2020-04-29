@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
+	"github.com/jeffotoni/gocorreio.frete/models"
 	"github.com/jeffotoni/gocorreio.frete/pkg/frete"
-	"github.com/jeffotoni/gocorreio.frete/pkg/models"
 )
 
 func main() {
 	var gf = &models.GetFrete{
-		NCdEmpresa:          "xxxxxxx",
-		SDsSenha:            "xxxxxxx",
+		NCdEmpresa:          "codigo-empresa-aqui",
+		SDsSenha:            "senha-empresa-aqui",
 		SCepOrigem:          "01405001",
 		SCepDestino:         "06765000",
 		NVlPeso:             1,
@@ -25,7 +25,7 @@ func main() {
 		Servicos:            []string{"04162", "04669", "1"},
 	}
 
-	result, err := frete.Search(gv)
+	result, err := frete.Search(gf)
 	fmt.Println(err)
 	fmt.Println(result)
 }
