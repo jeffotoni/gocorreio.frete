@@ -1,7 +1,8 @@
 package config
 
 var (
-	Port = ":8087"
+	Port       = ":8087"
+	VersionApp = "0.1.1"
 )
 
 var JsonDefault = `{}`

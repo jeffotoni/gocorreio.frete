@@ -19,6 +19,6 @@ func main() {
 		Handler: mux,
 	}
 
-	log.Println("Port:", config.Port)
+	log.Println("Port:", config.Port, " Version:", config.VersionApp)
 	log.Fatal(server.ListenAndServe())
 }
