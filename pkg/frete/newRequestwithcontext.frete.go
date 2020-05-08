@@ -6,7 +6,7 @@ import (
 	"github.com/jeffotoni/gocorreio.frete/models"
 	"io/ioutil"
 	"net/http"
-	"runtime"
+	//"runtime"
 	"sync"
 	"time"
 )
@@ -23,7 +23,7 @@ func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, gf *models.GetFrete, 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
 
-	runtime.Gosched()
+	//runtime.Gosched()
 	req, err := http.NewRequestWithContext(ctx, "GET", endpointNow, nil)
 	if err != nil {
 		return
@@ -31,8 +31,12 @@ func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, gf *models.GetFrete, 
 
 	response, err := http.DefaultClient.Do(req)
 	if err != nil {
-		//println(err.Error())
-		errXml := fmt.Sprintf(models.DefaultXmlError, nCdServico, 10, "Error, timeout, url do correio nao respondeu, confira seu proxy talvez está bloqueando sua chamada.")
+		println("......................................................................")
+		println(endpointNow)
+		println(err.Error())
+		println("......................................................................")
+		errXml := fmt.Sprintf(models.DefaultXmlError, nCdServico, 10, `Error, timeout, url do correio 
+			nao respondeu, confira seu proxy talvez está bloqueando sua chamada.`)
 		chResult <- errXml
 		return
 	}

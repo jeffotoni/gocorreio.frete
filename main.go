@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-
+	//log.Println("version: 0.0.1")
 	mux := http.NewServeMux()
 	mux.HandleFunc("/frete", handler.Frete)
 	mux.HandleFunc("/frete/", handler.NotFound)

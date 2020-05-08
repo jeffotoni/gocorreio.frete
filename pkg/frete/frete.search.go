@@ -10,6 +10,7 @@ import (
 	"runtime"
 	"strings"
 	"sync"
+	"time"
 )
 
 func Search(gf *models.GetFrete) (string, error) {
@@ -20,6 +21,7 @@ func Search(gf *models.GetFrete) (string, error) {
 		gf.SCdAvisoRecebimento, gf.NVlDiametro, gf.StrRetorno))
 	jsoncodigoFrete := ristretto.Get(GSha1)
 	if len(jsoncodigoFrete) > 0 {
+		//println("buscando em cache..")
 		return jsoncodigoFrete, nil
 	}
 
@@ -75,7 +77,7 @@ func Search(gf *models.GetFrete) (string, error) {
 	}
 
 	jsoncodigoFrete = string(b)
-	ristretto.Set(GSha1, jsoncodigoFrete)
+	ristretto.SetTTL(GSha1, jsoncodigoFrete, time.Duration(time.Minute*20))
 
 	return jsoncodigoFrete, nil
 }

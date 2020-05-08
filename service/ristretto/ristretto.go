@@ -32,6 +32,18 @@ func Run() *ristretto.Cache {
 	return cacheOnce
 }
 
+func SetTTL(key, value string, ttl time.Duration) bool {
+	if len(key) < 0 || len(value) < 0 {
+		return false
+	}
+	cache := Run()
+	if cache.SetWithTTL(key, value, 1, ttl) {
+		time.Sleep(10 * time.Millisecond)
+		return true
+	}
+	return false
+}
+
 func Set(key, value string) bool {
 	if len(key) < 0 || len(value) < 0 {
 		return false
@@ -45,6 +57,7 @@ func Set(key, value string) bool {
 }
 
 func Get(key string) string {
+	time.Sleep(10 * time.Millisecond)
 	if len(key) <= 0 {
 		return ""
 	}
