@@ -3,9 +3,11 @@ package frete
 import (
 	"context"
 	"fmt"
-	"github.com/jeffotoni/gocorreio.frete/models"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/jeffotoni/gocorreio.frete/models"
+
 	//"runtime"
 	"sync"
 	"time"
@@ -20,7 +22,7 @@ func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, gf *models.GetFrete, 
 		gf.SCepDestino, gf.NVlPeso, gf.NCdFormato, gf.NVlComprimento, gf.NVlAltura, gf.NVlLargura, gf.SCdMaoPropria, gf.NVlValorDeclarado,
 		gf.SCdAvisoRecebimento, nCdServico, gf.NVlDiametro, gf.StrRetorno)
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
 	defer cancel()
 
 	//runtime.Gosched()
