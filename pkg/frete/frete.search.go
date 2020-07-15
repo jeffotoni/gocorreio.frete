@@ -3,14 +3,15 @@ package frete
 import (
 	"encoding/json"
 	"encoding/xml"
-	"github.com/jeffotoni/gocorreio.frete/models"
-	"github.com/jeffotoni/gocorreio.frete/pkg/util"
-	"github.com/jeffotoni/gocorreio.frete/service/ristretto"
 	"log"
 	"runtime"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/jeffotoni/gocorreio.frete/models"
+	"github.com/jeffotoni/gocorreio.frete/pkg/util"
+	"github.com/jeffotoni/gocorreio.frete/service/ristretto"
 )
 
 func Search(gf *models.GetFrete) (string, error) {
@@ -20,10 +21,10 @@ func Search(gf *models.GetFrete) (string, error) {
 		gf.SCepDestino, gf.NCdFormato, gf.NVlPeso, gf.NVlComprimento, gf.NVlAltura, gf.NVlLargura, gf.SCdMaoPropria, gf.NVlValorDeclarado,
 		gf.SCdAvisoRecebimento, gf.NVlDiametro, gf.StrRetorno))
 	jsoncodigoFrete := ristretto.Get(GSha1)
-	if len(jsoncodigoFrete) > 0 {
-		//println("buscando em cache..")
-		return jsoncodigoFrete, nil
-	}
+	// if len(jsoncodigoFrete) > 0 {
+	// 	//println("buscando em cache..")
+	// 	return jsoncodigoFrete, nil
+	// }
 
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	var chResult = make(chan string, 1)
