@@ -15,16 +15,15 @@ import (
 )
 
 func Search(gf *models.GetFrete) (string, error) {
-
 	serviceOne := strings.Join(gf.Servicos, "")
 	GSha1 := util.GSha1(util.Concat(serviceOne, "_", gf.NCdEmpresa, gf.SDsSenha, gf.SCepOrigem,
 		gf.SCepDestino, gf.NCdFormato, gf.NVlPeso, gf.NVlComprimento, gf.NVlAltura, gf.NVlLargura, gf.SCdMaoPropria, gf.NVlValorDeclarado,
 		gf.SCdAvisoRecebimento, gf.NVlDiametro, gf.StrRetorno))
 	jsoncodigoFrete := ristretto.Get(GSha1)
-	// if len(jsoncodigoFrete) > 0 {
-	// 	//println("buscando em cache..")
-	// 	return jsoncodigoFrete, nil
-	// }
+	if len(jsoncodigoFrete) > 0 {
+		//println("buscando em cache..")
+		return jsoncodigoFrete, nil
+	}
 
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	var chResult = make(chan string, 1)
@@ -45,7 +44,7 @@ func Search(gf *models.GetFrete) (string, error) {
 	}()
 
 	var sjsonV []models.ResultCServico
-
+	//var vazio bool
 	for t := range chResult {
 		var sxml models.ServicosXML
 		var sjson models.ResultCServico
@@ -57,6 +56,12 @@ func Search(gf *models.GetFrete) (string, error) {
 			log.Println("Error NewDecoder: ", err.Error())
 			continue
 		}
+
+		// if len(sxml.CServico.Valor) <= 0 ||
+		// 	sxml.CServico.Valor == "0,00" ||
+		// 	sxml.CServico.Valor == "0,0" {
+		// 	continue
+		// }
 
 		sjson.Codigo = sxml.CServico.Codigo
 		sjson.Valor = sxml.CServico.Valor
@@ -77,6 +82,7 @@ func Search(gf *models.GetFrete) (string, error) {
 		return "", err
 	}
 
+	//println("grava")
 	jsoncodigoFrete = string(b)
 	ristretto.SetTTL(GSha1, jsoncodigoFrete, time.Duration(time.Minute*20))
 

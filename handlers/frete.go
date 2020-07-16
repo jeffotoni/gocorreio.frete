@@ -2,18 +2,17 @@ package handler
 
 import (
 	"encoding/json"
+	"net/http"
+
 	"github.com/jeffotoni/gocorreio.frete/models"
 	"github.com/jeffotoni/gocorreio.frete/pkg/frete"
-	"net/http"
 )
 
 func Frete(w http.ResponseWriter, r *http.Request) {
-
 	if r.Method != http.MethodPost {
 		http.Error(w, "not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-
 	endpoint := r.URL.Path
 	if endpoint != "/frete" {
 		w.WriteHeader(http.StatusFound)

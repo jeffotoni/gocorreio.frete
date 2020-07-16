@@ -21,13 +21,17 @@ func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, gf *models.GetFrete, 
 	endpointNow := fmt.Sprintf(endpoint, gf.NCdEmpresa, gf.SDsSenha, gf.SCepOrigem,
 		gf.SCepDestino, gf.NVlPeso, gf.NCdFormato, gf.NVlComprimento, gf.NVlAltura, gf.NVlLargura, gf.SCdMaoPropria, gf.NVlValorDeclarado,
 		gf.SCdAvisoRecebimento, nCdServico, gf.NVlDiametro, gf.StrRetorno)
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
 	defer cancel()
-
 	//runtime.Gosched()
 	req, err := http.NewRequestWithContext(ctx, "GET", endpointNow, nil)
 	if err != nil {
+		println("ERROR NewRequestWithContext..........................................")
+		println(endpointNow)
+		println(err.Error())
+		println("......................................................................")
+		errXml := fmt.Sprintf(models.DefaultXmlError, nCdServico, 9, `error NewRequestWithContext`)
+		chResult <- errXml
 		return
 	}
 
@@ -51,7 +55,6 @@ func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, gf *models.GetFrete, 
 	}
 
 	defer response.Body.Close()
-
 	if len(string(body)) > 0 &&
 		response.StatusCode == http.StatusOK {
 		chResult <- string(body)
