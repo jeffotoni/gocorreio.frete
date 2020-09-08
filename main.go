@@ -1,10 +1,12 @@
 package main
 
 import (
-	"github.com/jeffotoni/gocorreio.frete/config"
-	"github.com/jeffotoni/gocorreio.frete/handlers"
 	"log"
 	"net/http"
+
+	"github.com/jeffotoni/gcolor"
+	"github.com/jeffotoni/gocorreio.frete/config"
+	handler "github.com/jeffotoni/gocorreio.frete/handlers"
 )
 
 func main() {
@@ -19,6 +21,6 @@ func main() {
 		Handler: mux,
 	}
 
-	log.Println("Port:", config.Port, " Version:", config.VersionApp)
+	log.Println(gcolor.YellowCor("Server Run Port"), config.Port, " Version:", config.VersionApp)
 	log.Fatal(server.ListenAndServe())
 }
