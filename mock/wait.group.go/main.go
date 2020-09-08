@@ -26,7 +26,7 @@ func main() {
 	var chResult = make(chan Result, len(Servicos))
 
 	var wg sync.WaitGroup
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Minute)
 	defer cancel()
 
 	wg.Add(len(Servicos))
@@ -50,12 +50,9 @@ func main() {
 func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, ctx context.Context, cancel context.CancelFunc, servico string, chResult chan<- Result) {
 	defer wg.Done()
 	fmt.Println("estou executando")
-
 	rs.Codigo = servico
 	rs.Valor = "100.22"
 	r.Body = append(r.Body, rs)
-
 	time.Sleep(time.Second * 5)
 	chResult <- r
-
 }

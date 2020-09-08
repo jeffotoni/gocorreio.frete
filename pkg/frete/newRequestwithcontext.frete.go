@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/jeffotoni/gocorreio.frete/config"
 	"github.com/jeffotoni/gocorreio.frete/models"
 
 	//"runtime"
@@ -21,7 +22,7 @@ func NewRequestWithContextCorreioFrete(wg *sync.WaitGroup, gf *models.GetFrete, 
 	endpointNow := fmt.Sprintf(endpoint, gf.NCdEmpresa, gf.SDsSenha, gf.SCepOrigem,
 		gf.SCepDestino, gf.NVlPeso, gf.NCdFormato, gf.NVlComprimento, gf.NVlAltura, gf.NVlLargura, gf.SCdMaoPropria, gf.NVlValorDeclarado,
 		gf.SCdAvisoRecebimento, nCdServico, gf.NVlDiametro, gf.StrRetorno)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(config.TimeoutSearchFrete)*time.Second)
 	defer cancel()
 	//runtime.Gosched()
 	req, err := http.NewRequestWithContext(ctx, "GET", endpointNow, nil)

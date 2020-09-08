@@ -9,6 +9,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/jeffotoni/gocorreio.frete/config"
 	"github.com/jeffotoni/gocorreio.frete/models"
 	"github.com/jeffotoni/gocorreio.frete/pkg/util"
 	"github.com/jeffotoni/gocorreio.frete/service/ristretto"
@@ -25,16 +26,14 @@ func Search(gf *models.GetFrete) (string, error) {
 		return jsoncodigoFrete, nil
 	}
 
-	runtime.GOMAXPROCS(runtime.NumCPU())
+	runtime.GOMAXPROCS(config.NumCPU)
 	var chResult = make(chan string, 1)
 
 	var wg sync.WaitGroup
 	for _, nCdServico := range gf.Servicos {
 		wg.Add(1)
 		go func(wg *sync.WaitGroup, gf *models.GetFrete, nCdServico string, chResult chan<- string) {
-
 			NewRequestWithContextCorreioFrete(wg, gf, nCdServico, chResult)
-
 		}(&wg, gf, nCdServico, chResult)
 	}
 
@@ -44,7 +43,7 @@ func Search(gf *models.GetFrete) (string, error) {
 	}()
 
 	var sjsonV []models.ResultCServico
-	//var vazio bool
+	//var vazio, count int
 	for t := range chResult {
 		var sxml models.ServicosXML
 		var sjson models.ResultCServico
@@ -60,7 +59,7 @@ func Search(gf *models.GetFrete) (string, error) {
 		// if len(sxml.CServico.Valor) <= 0 ||
 		// 	sxml.CServico.Valor == "0,00" ||
 		// 	sxml.CServico.Valor == "0,0" {
-		// 	continue
+		// 	vazio++
 		// }
 
 		sjson.Codigo = sxml.CServico.Codigo
@@ -75,6 +74,7 @@ func Search(gf *models.GetFrete) (string, error) {
 		sjson.Erro = sxml.CServico.Erro
 		sjson.MsgErro = sxml.CServico.MsgErro
 		sjsonV = append(sjsonV, sjson)
+		//count++
 	}
 
 	b, err := json.Marshal(sjsonV)
@@ -82,9 +82,9 @@ func Search(gf *models.GetFrete) (string, error) {
 		return "", err
 	}
 
-	//println("grava")
+	//println("vazio => ", vazio, " count:", count)
 	jsoncodigoFrete = string(b)
-	ristretto.SetTTL(GSha1, jsoncodigoFrete, time.Duration(time.Minute*20))
+	ristretto.SetTTL(GSha1, jsoncodigoFrete, time.Duration(config.TTLCacheFrete)*time.Second)
 
 	return jsoncodigoFrete, nil
 }
