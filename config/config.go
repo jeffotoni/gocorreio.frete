@@ -4,7 +4,7 @@ import "runtime"
 
 var (
 	Port       = ":8087"
-	VersionApp = "0.1.1"
+	VersionApp = "0.1.2"
 )
 
 var JsonDefault = `{}`

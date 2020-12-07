@@ -22,7 +22,7 @@ func Search(gf *models.GetFrete) (string, error) {
 		gf.SCdAvisoRecebimento, gf.NVlDiametro, gf.StrRetorno))
 	jsoncodigoFrete := ristretto.Get(GSha1)
 	if len(jsoncodigoFrete) > 0 {
-		//println("buscando em cache..")
+		println("buscando em cache..")
 		return jsoncodigoFrete, nil
 	}
 

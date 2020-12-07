@@ -7,7 +7,7 @@ GOSUMDB=off
 
 build:
 	@echo "########## Compilando nossa API ... "
-	go build -ldflags="-s -w" -o gocorreio.frete main.go
+	CGO_ENABLED=0 go build -ldflags="-s -w" -o gocorreio.frete main.go
 	upx gocorreio.frete
 	@echo "buid completo..."
 	@echo "\033[0;33m################ run #####################\033[0m"
@@ -17,7 +17,7 @@ update:
 	@echo "########## Compilando nossa API ... "
 	@rm -f go.*
 	go mod init github.com/jeffotoni/gocorreio.frete
-	go build -ldflags="-s -w" -o gocorreio.frete main.go
+	CGO_ENABLED=0 go build -ldflags="-s -w" -o gocorreio.frete main.go
 	@echo "buid completo..."
 	@echo "\033[0;33m################ Enviando para o server #####################\033[0m"
 	@echo "fim"

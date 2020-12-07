@@ -1,6 +1,6 @@
 # tart by building the application.
 # Build em gocorreio.frete com distroless
-FROM golang:1.14.1 as builder
+FROM golang:1.15 as builder
 
 WORKDIR /go/src/gocorreio.frete
 
