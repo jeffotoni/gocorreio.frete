@@ -16,4 +16,7 @@ var (
 	NumCPU             int   = runtime.NumCPU()
 	TTLCacheFrete      int   = 3600 // secound => 1h
 	TimeoutSearchFrete int   = 15   // secound
+	TimeoutSearchPrazo int   = 15
+	TimeoutSearchPreco int   = 15
+	TimeoutSearchToken int   = 15
 )

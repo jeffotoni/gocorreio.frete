@@ -1,5 +1,20 @@
 # Frete gocorreio.frete
 
+## Frete v2
+
+Para fazer chamadas da API v2, é necessário criar o arquivo com as credenciais da API do Correios. É necessário também criar o arquivo das credentials, path: credentials/credentials.json
+
+Faça o export das envs
+
+USUARIO_MEU_CORREIOS - Usuário usado para logar no ambiente Meu Correios
+CODIGO_ACESSO - Código de 40 caracteres gerado no ambiente Meu Correios
+NUMERO_CARTAO - Número do cartão de postagem
+
+Para mais informações sobre a autenticação e as chamadas, confira a documentação da API no site [Meu Correios](https://meucorreios.correios.com.br)
+
+
+## Frete v1
+
 Um simples pacote para buscar nos correios os fretes, onde você terá o custo do frete, o json que irá passar deverá conter a senha da sua conta do correio para que os valores correspondem a sua realidade.
 
 Podendo implementar para ter uma saída ainda mais completa conforme sua necessidade, então fique a vontade em alterar conforme seu cenário.

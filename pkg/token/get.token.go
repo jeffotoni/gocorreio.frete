@@ -3,6 +3,7 @@ package token
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
 
 	"github.com/jeffotoni/gocorreio.frete/models"
@@ -23,18 +24,21 @@ func GetToken() (token string, err error) {
 	if fileExists {
 		file, err := os.ReadFile(fileName)
 		if err != nil {
-			return "", err
+			fmt.Println("ERROR (os.ReadFile) ", err)
+			// return "", err
 		}
 
 		err = json.Unmarshal(file, &resp200)
 		if err != nil {
-			return "", err
+			fmt.Println("ERROR (json.Unmarshal) ", err)
+			// return "", err
 		}
 
 		if len(resp200.Token) > 0 {
 
 			hasExpired, err = CheckTokenExpired(resp200.ExpiraEm)
 			if err != nil {
+				fmt.Println("err (json.Unmarshal) ", err)
 				return "", err
 			}
 		}
