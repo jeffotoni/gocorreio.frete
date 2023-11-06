@@ -13,6 +13,7 @@ func main() {
 	//log.Println("version: 0.0.1")
 	mux := http.NewServeMux()
 	mux.HandleFunc("/frete", handler.Frete)
+	mux.HandleFunc("/v2/frete", handler.Fretev2)
 	mux.HandleFunc("/frete/", handler.NotFound)
 	mux.HandleFunc("/", handler.NotFound)
 
