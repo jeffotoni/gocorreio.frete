@@ -22,4 +22,5 @@ type RespPrazo struct {
 	DataMaxima        string `json:"dataMaxima"`
 	EntregaDomiciliar string `json:"entregaDomiciliar"`
 	EntregaSabado     string `json:"entregaSabado"`
+	RespError
 }

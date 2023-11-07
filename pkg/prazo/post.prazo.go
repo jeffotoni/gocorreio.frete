@@ -58,8 +58,8 @@ func PostPrazo(gf *models.PostPrazo) (resp200 models.RespPrazo200, err error) {
 	}
 	// fmt.Println(urlReqPrazoPost, " - resp.StatusCode ", resp.StatusCode)
 
-	if resp.StatusCode != 200 {
-		err = errors.New(util.Concat("url: ", urlReqPrazoPost, " statuscode:", resp.Status, " - body:", string(bodyRes)))
+	if resp.StatusCode >= 400 && resp.StatusCode < 500 {
+		err = errors.New(util.Concat("url: ", urlReqPrazoPost, " - ERROR return api - body:", string(bodyRes)))
 		return
 	}
 

@@ -43,4 +43,5 @@ type RespPreco struct {
 	PcFaixaVariacao      string `json:"pcFaixaVariacao"`
 	PcProduto            string `json:"pcProduto"`
 	PcFinal              string `json:"pcFinal"`
+	RespError
 }

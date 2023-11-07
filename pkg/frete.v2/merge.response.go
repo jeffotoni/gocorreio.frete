@@ -11,27 +11,73 @@ func MergeResponse(resultPrazo models.RespPrazo200, resultPreco models.RespPreco
 	var results = make(map[string]models.ResultCServico)
 	var resultsResp []models.ResultCServico
 
+	var msgErro string = ""
+	var prazoEntrega string = ""
+	var valor string = ""
+	var valorTotal string = ""
+	var valorDeclarado string = ""
+
 	for _, prazoR := range resultPrazo {
+
+		msgErro = ""
+		prazoEntrega = ""
+
 		// fmt.Println("prazoR.CoProduto ", prazoR.CoProduto, " - Entrega: ", prazoR.PrazoEntrega)
+
+		if len(prazoR.TxErro) > 0 {
+			msgErro = prazoR.TxErro
+			prazoEntrega = ""
+			// fmt.Println("msgErro ", msgErro)
+		} else {
+			prazoEntrega = util.Concat("", prazoR.PrazoEntrega)
+		}
+
 		results[prazoR.CoProduto] = models.ResultCServico{
 			Codigo:       prazoR.CoProduto,
-			PrazoEntrega: util.Concat("", prazoR.PrazoEntrega),
+			PrazoEntrega: prazoEntrega,
+			MsgErro:      msgErro,
 		}
 	}
 
 	for _, precoR := range resultPreco {
+
+		msgErro = ""
+		valor = ""
+		valorTotal = ""
+		valorDeclarado = ""
+
+		if len(results[precoR.CoProduto].MsgErro) > 0 {
+			msgErro = results[precoR.CoProduto].MsgErro
+		}
+
+		if len(precoR.TxErro) > 0 {
+			msgErro = util.Concat(msgErro, " - ", precoR.TxErro)
+		}
+
 		// fmt.Println("precoR.CoProduto ", precoR.CoProduto, " - Valor: R$ ", precoR.PcBase, " - Valor total: R$ ", precoR.PcFinal)
+
+		if len(msgErro) > 0 {
+			valor = "0,00"
+			valorTotal = "0,00"
+			valorDeclarado = "0,00"
+			// fmt.Println("msgErro ", msgErro)
+		} else {
+			valor = precoR.PcFinal
+			valorTotal = precoR.PcFinal
+			valorDeclarado = precoR.PcBase
+		}
+
 		results[precoR.CoProduto] = models.ResultCServico{
 			Codigo:                results[precoR.CoProduto].Codigo,
 			PrazoEntrega:          results[precoR.CoProduto].PrazoEntrega,
-			Valor:                 precoR.PcFinal,
-			ValorValorDeclarado:   precoR.PcBase,
-			ValorTotal:            precoR.PcFinal,
+			Valor:                 valor,
+			ValorValorDeclarado:   valorDeclarado,
+			ValorTotal:            valorTotal,
 			EntregaDomiciliar:     "S",
 			EntregaSabado:         "N",
 			ObsFim:                "",
-			Erro:                  "",
-			MsgErro:               "",
+			Erro:                  msgErro,
+			MsgErro:               msgErro,
 			ValorSemAdicionais:    "0,00",
 			ValorAvisoRecebimento: "0,00",
 		}

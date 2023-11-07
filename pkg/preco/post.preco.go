@@ -58,8 +58,8 @@ func PostPreco(gf *models.PostPreco) (resp200 models.RespPreco200, err error) {
 	}
 	// fmt.Println(urlReqPrecoPost, " - resp.StatusCode ", resp.StatusCode)
 
-	if resp.StatusCode != 200 {
-		err = errors.New(util.Concat("url: ", urlReqPrecoPost, " statuscode:", resp.Status, " - body:", string(bodyRes)))
+	if resp.StatusCode >= 400 && resp.StatusCode < 500 {
+		err = errors.New(util.Concat("url: ", urlReqPrecoPost, " - ERROR return api - body:", string(bodyRes)))
 		return
 	}
 
