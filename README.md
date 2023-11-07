@@ -6,9 +6,12 @@ Para fazer chamadas da API v2, é necessário criar o arquivo com as credenciais
 
 Faça o export das envs
 
-USUARIO_MEU_CORREIOS - Usuário usado para logar no ambiente Meu Correios
-CODIGO_ACESSO - Código de 40 caracteres gerado no ambiente Meu Correios
-NUMERO_CARTAO - Número do cartão de postagem
+| Env | Descrição |
+| --- | --------- |
+| USUARIO_MEU_CORREIOS | Usuário usado para logar no ambiente Meu Correios |
+| CODIGO_ACESSO | Código de 40 caracteres gerado no ambiente Meu Correios |
+| NUMERO_CARTAO | Número do cartão de postagem |
+
 
 Para mais informações sobre a autenticação e as chamadas, confira a documentação da API no site [Meu Correios](https://meucorreios.correios.com.br)
 

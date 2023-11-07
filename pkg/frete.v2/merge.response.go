@@ -15,7 +15,6 @@ func MergeResponse(resultPrazo models.RespPrazo200, resultPreco models.RespPreco
 	var prazoEntrega string = ""
 	var valor string = ""
 	var valorTotal string = ""
-	var valorDeclarado string = ""
 
 	for _, prazoR := range resultPrazo {
 
@@ -44,7 +43,6 @@ func MergeResponse(resultPrazo models.RespPrazo200, resultPreco models.RespPreco
 		msgErro = ""
 		valor = ""
 		valorTotal = ""
-		valorDeclarado = ""
 
 		if len(results[precoR.CoProduto].MsgErro) > 0 {
 			msgErro = results[precoR.CoProduto].MsgErro
@@ -59,19 +57,17 @@ func MergeResponse(resultPrazo models.RespPrazo200, resultPreco models.RespPreco
 		if len(msgErro) > 0 {
 			valor = "0,00"
 			valorTotal = "0,00"
-			valorDeclarado = "0,00"
 			// fmt.Println("msgErro ", msgErro)
 		} else {
-			valor = precoR.PcFinal
+			valor = precoR.PcBase
 			valorTotal = precoR.PcFinal
-			valorDeclarado = precoR.PcBase
 		}
 
 		results[precoR.CoProduto] = models.ResultCServico{
 			Codigo:                results[precoR.CoProduto].Codigo,
 			PrazoEntrega:          results[precoR.CoProduto].PrazoEntrega,
 			Valor:                 valor,
-			ValorValorDeclarado:   valorDeclarado,
+			ValorValorDeclarado:   "0,00",
 			ValorTotal:            valorTotal,
 			EntregaDomiciliar:     "S",
 			EntregaSabado:         "N",
