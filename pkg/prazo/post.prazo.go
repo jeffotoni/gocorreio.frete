@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -19,7 +18,7 @@ import (
 
 var urlReqPrazoPost string = `https://api.correios.com.br/prazo/v1/nacional`
 
-func PostPrazo(gf *models.PostPrazo) (resp200 string, err error) {
+func PostPrazo(gf *models.PostPrazo) (resp200 models.RespPrazo200, err error) {
 
 	authToken, err := token.GetToken()
 	if err != nil {
@@ -57,18 +56,18 @@ func PostPrazo(gf *models.PostPrazo) (resp200 string, err error) {
 		err = errors.New(util.Concat("url: ", urlReqPrazoPost, " - io.ReadAll: ", err.Error()))
 		return
 	}
-	fmt.Println(urlReqPrazoPost, " - resp.StatusCode ", resp.StatusCode)
+	// fmt.Println(urlReqPrazoPost, " - resp.StatusCode ", resp.StatusCode)
 
 	if resp.StatusCode != 200 {
 		err = errors.New(util.Concat("url: ", urlReqPrazoPost, " statuscode:", resp.Status, " - body:", string(bodyRes)))
 		return
 	}
 
-	resp200 = string(bodyRes)
-	// err = json.Unmarshal(bodyRes, &resp200)
-	// if err != nil {
-	// 	err = errors.New(util.Concat("url: ", urlReqPrazoPost, " - Unmarshal resp200 return api - body:", string(bodyRes)))
-	// 	return
-	// }
+	// resp200 = string(bodyRes)
+	err = json.Unmarshal(bodyRes, &resp200)
+	if err != nil {
+		err = errors.New(util.Concat("url: ", urlReqPrazoPost, " - Unmarshal resp200 return api - body:", string(bodyRes)))
+		return
+	}
 	return
 }

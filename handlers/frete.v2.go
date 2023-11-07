@@ -34,8 +34,6 @@ func Fretev2(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// var results map[string]models.ResultCServico
-
 	var gfPrazo models.PostPrazo
 	gfPrazo.IDLote = gf.IDLote
 	gfPrazo.ParametrosPrazo = gf.ParametrosPrazo
@@ -47,24 +45,6 @@ func Fretev2(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(err.Error()))
 		return
 	}
-
-	var respPrazo200 models.RespPrazo200
-	err = json.Unmarshal([]byte(resultPrazo), &respPrazo200)
-	if err != nil {
-		// fmt.Println("ERROR: ", err)
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(err.Error()))
-		return
-	}
-
-	// for _, prazoR := range respPrazo200 {
-	// 	results[prazoR.CoProduto] = models.ResultCServico{
-	// 		Codigo:       prazoR.CoProduto,
-	// 		PrazoEntrega: util.Concat("", prazoR.PrazoEntrega),
-	// 	}
-	// }
-
-	// fmt.Println("Result (prazo): ", resultPrazo)
 
 	var gfPreco models.PostPreco
 	gfPreco.IDLote = gf.IDLote
@@ -78,8 +58,7 @@ func Fretev2(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var respPreco200 models.RespPreco200
-	err = json.Unmarshal([]byte(resultPreco), &respPreco200)
+	results, err := fretev2.MergeResponse(resultPrazo, resultPreco)
 	if err != nil {
 		// fmt.Println("ERROR: ", err)
 		w.WriteHeader(http.StatusBadRequest)
@@ -87,33 +66,7 @@ func Fretev2(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// for _, precoR := range respPreco200 {
-	// 	results[precoR.CoProduto] = models.ResultCServico{
-	// 		Codigo:                precoR.CoProduto,
-	// 		Valor:                 precoR.PcBase,
-	// 		ValorValorDeclarado:   precoR.PcBase,
-	// 		ValorTotal:            precoR.PcFinal,
-	// 		EntregaDomiciliar:     "S",
-	// 		EntregaSabado:         "N",
-	// 		ObsFim:                "",
-	// 		Erro:                  "",
-	// 		MsgErro:               "",
-	// 		ValorSemAdicionais:    "0,00",
-	// 		ValorAvisoRecebimento: "0,00",
-	// 	}
-	// }
-
-	// fmt.Println("Result (preco): ", resultPreco)
-
-	// jResults, err := json.Marshal(results)
-	// if err != nil {
-	// 	// fmt.Println("ERROR: ", err)
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte(err.Error()))
-	// 	return
-	// }
-
 	w.WriteHeader(http.StatusOK)
-	// w.Write(jResults)
+	w.Write([]byte(results))
 	return
 }

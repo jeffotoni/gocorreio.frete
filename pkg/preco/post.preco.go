@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -19,7 +18,7 @@ import (
 
 var urlReqPrecoPost string = `https://api.correios.com.br/preco/v1/nacional`
 
-func PostPreco(gf *models.PostPreco) (resp200 string, err error) {
+func PostPreco(gf *models.PostPreco) (resp200 models.RespPreco200, err error) {
 
 	authToken, err := token.GetToken()
 	if err != nil {
@@ -57,18 +56,18 @@ func PostPreco(gf *models.PostPreco) (resp200 string, err error) {
 		err = errors.New(util.Concat("url: ", urlReqPrecoPost, " - io.ReadAll: ", err.Error()))
 		return
 	}
-	fmt.Println(urlReqPrecoPost, " - resp.StatusCode ", resp.StatusCode)
+	// fmt.Println(urlReqPrecoPost, " - resp.StatusCode ", resp.StatusCode)
 
 	if resp.StatusCode != 200 {
 		err = errors.New(util.Concat("url: ", urlReqPrecoPost, " statuscode:", resp.Status, " - body:", string(bodyRes)))
 		return
 	}
 
-	resp200 = string(bodyRes)
-	// err = json.Unmarshal(bodyRes, &resp200)
-	// if err != nil {
-	// 	err = errors.New(util.Concat("url: ", urlReqPrecoPost, " - Unmarshal resp200 return api - body:", string(bodyRes)))
-	// 	return
-	// }
+	// resp200 = string(bodyRes)
+	err = json.Unmarshal(bodyRes, &resp200)
+	if err != nil {
+		err = errors.New(util.Concat("url: ", urlReqPrecoPost, " - Unmarshal resp200 return api - body:", string(bodyRes)))
+		return
+	}
 	return
 }
