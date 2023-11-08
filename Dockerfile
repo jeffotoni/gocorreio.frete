@@ -8,10 +8,11 @@ COPY . .
 
 RUN pwd
 RUN ls -lh
-RUN cp gocorreio.frete/gocorreio.frete /go/bin/gocorreio.frete
+RUN cp gocorreio.frete /go/bin/gocorreio.frete
 RUN ls -lh /go/bin
-# RUN cp credentials/credentials.json /go/bin/credentials/credentials.json
-RUN ls -lh
+RUN mkdir /go/bin/credentials/
+RUN cp credentials/credentials.json /go/bin/credentials/credentials.json
+RUN ls -lh /go/bin/credentials
 
 # FROM alpine:latest AS final
 # RUN apk update
