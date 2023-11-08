@@ -1,20 +1,26 @@
 # tart by building the application.
 # Build em gocorreio.frete com distroless
-FROM golang:1.15 as builder
+FROM golang:1.20 as builder
 
-WORKDIR /go/src/gocorreio.frete
+WORKDIR /go/src/
 
-COPY gocorreio.frete .
+COPY . .
 
-ENV GO111MODULE=on
-
-#RUN go install -v ./...
-#RUN GOOS=linux go  build -ldflags="-s -w" -o gocorreio.frete main.go
-RUN cp gocorreio.frete /go/bin/gocorreio.frete
-
+RUN pwd
+RUN ls -lh
+RUN cp gocorreio.frete/gocorreio.frete /go/bin/gocorreio.frete
+RUN ls -lh /go/bin
+# RUN cp credentials/credentials.json /go/bin/credentials/credentials.json
 RUN ls -lh
 
-# Now copy it into our base image.
-FROM gcr.io/distroless/base
-COPY --from=builder /go/bin/gocorreio.frete /
-CMD ["/gocorreio.frete"]
+# FROM alpine:latest AS final
+# RUN apk update
+# RUN apk add --no-cache tzdata
+# RUN apk add --no-cache ca-certificates
+# ENV TZ="America/Sao_Paulo"
+# RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# COPY --from=builder /go/bin/gocorreio.frete /
+# COPY --from=builder /go/bin/credentials/ /
+# RUN ls -lh
+# RUN ls -lh credentials
+# CMD ["/gocorreio.frete"]

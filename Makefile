@@ -29,6 +29,8 @@ deploy.docker:
 
 deploy.aws:
 	@echo "########## Compilando nossa API ... "
+	#CGO_ENABLED=0 go build -ldflags="-s -w" -o gocorreio.frete main.go
+	CGO_ENABLED=0 GOOS=linux go build -buildvcs=false -ldflags="-s -w" -o gocorreio.frete main.go
 	sh deploy.aws.sh
 	@echo "fim"
 
