@@ -6,7 +6,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -65,7 +64,7 @@ func PostToken() (resp200 string, err error) {
 		err = errors.New(util.Concat("url: ", urlReqTokenCartaoPostagemPost, " - io.ReadAll: ", err.Error()))
 		return
 	}
-	fmt.Println(urlReqTokenCartaoPostagemPost, " - resp.StatusCode ", resp.StatusCode)
+	// fmt.Println(urlReqTokenCartaoPostagemPost, " - resp.StatusCode ", resp.StatusCode)
 
 	if resp.StatusCode != 201 {
 		err = errors.New(util.Concat("url: ", urlReqTokenCartaoPostagemPost, " statuscode:", resp.Status, " - body:", string(bodyRes)))

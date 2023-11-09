@@ -8,6 +8,7 @@ import (
 	fretev2 "github.com/jeffotoni/gocorreio.frete/pkg/frete.v2"
 	"github.com/jeffotoni/gocorreio.frete/pkg/prazo"
 	"github.com/jeffotoni/gocorreio.frete/pkg/preco"
+	"github.com/jeffotoni/gocorreio.frete/pkg/util"
 )
 
 func Fretev2(w http.ResponseWriter, r *http.Request) {
@@ -24,12 +25,13 @@ func Fretev2(w http.ResponseWriter, r *http.Request) {
 	var gf models.PostFretev2
 	err := json.NewDecoder(r.Body).Decode(&gf)
 	if err != nil {
-		//println(err.Error())
+		util.PrintErrorFretev2(util.Concat("handlers/frete.v2.go - ", err.Error()), &gf)
 		http.Error(w, `{"msg":"Ocorreu um erro ao tentar decodificar o json recebido!"}`, http.StatusBadRequest)
 		return
 	}
 
 	if err := fretev2.IsValid(&gf); err != nil {
+		util.PrintErrorFretev2(util.Concat("handlers/frete.v2.go - IsValid: ", err.Error()), &gf)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -40,7 +42,7 @@ func Fretev2(w http.ResponseWriter, r *http.Request) {
 
 	resultPrazo, err := prazo.PostPrazo(&gfPrazo)
 	if err != nil {
-		// fmt.Println("ERROR: ", err)
+		util.PrintErrorFretev2(util.Concat("handlers/frete.v2.go - PostPrazo: ", err.Error()), &gf)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(err.Error()))
 		return
@@ -52,7 +54,7 @@ func Fretev2(w http.ResponseWriter, r *http.Request) {
 
 	resultPreco, err := preco.PostPreco(&gfPreco)
 	if err != nil {
-		// fmt.Println("ERROR: ", err)
+		util.PrintErrorFretev2(util.Concat("handlers/frete.v2.go - PostPreco: ", err.Error()), &gf)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(err.Error()))
 		return
@@ -60,7 +62,7 @@ func Fretev2(w http.ResponseWriter, r *http.Request) {
 
 	results, err := fretev2.MergeResponse(resultPrazo, resultPreco)
 	if err != nil {
-		// fmt.Println("ERROR: ", err)
+		util.PrintErrorFretev2(util.Concat("handlers/frete.v2.go - MergeResponse: ", err.Error()), &gf)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(err.Error()))
 		return

@@ -39,7 +39,7 @@ func GetToken() (token string, err error) {
 			hasExpired, err = CheckTokenExpired(resp200.ExpiraEm)
 			if err != nil {
 				fmt.Println("err (json.Unmarshal) ", err)
-				return "", err
+				// return "", err
 			}
 		}
 	}
