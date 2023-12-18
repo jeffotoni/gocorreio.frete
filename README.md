@@ -11,9 +11,108 @@ Faça o export das envs
 | USUARIO_MEU_CORREIOS | Usuário usado para logar no ambiente Meu Correios |
 | CODIGO_ACESSO | Código de 40 caracteres gerado no ambiente Meu Correios |
 | NUMERO_CARTAO | Número do cartão de postagem |
+| DISABLE_APP_LOG | Desabilitar logs de request body e response |
 
 
 Para mais informações sobre a autenticação e as chamadas, confira a documentação da API no site [Meu Correios](https://meucorreios.correios.com.br)
+
+## Executando sua API Frete v2
+```bash
+
+$ curl -i --location --request POST 'http://localhost:8087/v2/frete' \
+--header 'Content-Type: application/json' \
+--data '{
+   "idLote":"1",
+   "parametrosPrazo":[
+      {
+         "cepDestino":"22421000",
+         "cepOrigem":"01405001",
+         "coProduto":"04162",
+         "nuRequisicao":"1",
+         "dtEvento":"06/11/2023"
+      },
+      {
+         "cepDestino":"22421000",
+         "cepOrigem":"01405001",
+         "coProduto":"04669",
+         "nuRequisicao":"2",
+         "dtEvento":"06/11/2023"
+      }
+   ],
+   "parametrosProduto":[
+      {
+         "coProduto":"04162",
+         "nuRequisicao":1,
+         "cepOrigem":"01405001",
+         "psObjeto":"125",
+         "tpObjeto":"2",
+         "comprimento":24,
+         "largura":17,
+         "altura":12,
+         "servicosAdicionais":[
+            
+         ],
+         "vlDeclarado":"0",
+         "dtEvento":"06/11/2023",
+         "cepDestino":"22421000"
+      },
+      {
+         "coProduto":"04669",
+         "nuRequisicao":2,
+         "cepOrigem":"01405001",
+         "psObjeto":"125",
+         "tpObjeto":"2",
+         "comprimento":24,
+         "largura":17,
+         "altura":12,
+         "servicosAdicionais":[
+            
+         ],
+         "vlDeclarado":"0",
+         "dtEvento":"06/11/2023",
+         "cepDestino":"22421000"
+      }
+   ]
+}'
+```
+
+## Saida Json Frete v2
+```json
+
+[
+   {
+      "Codigo":"04669",
+      "Valor":"15,43",
+      "PrazoEntrega":"5",
+      "ValorSemAdicionais":"0,00",
+      "ValorMaoPropria":"",
+      "ValorAvisoRecebimento":"0,00",
+      "ValorValorDeclarado":"0,00",
+      "EntregaDomiciliar":"S",
+      "EntregaSabado":"N",
+      "obsFim":"",
+      "Erro":"",
+      "MsgErro":"",
+      "valorTotal":"18,36"
+   },
+   {
+      "Codigo":"04162",
+      "Valor":"9,73",
+      "PrazoEntrega":"1",
+      "ValorSemAdicionais":"0,00",
+      "ValorMaoPropria":"",
+      "ValorAvisoRecebimento":"0,00",
+      "ValorValorDeclarado":"0,00",
+      "EntregaDomiciliar":"S",
+      "EntregaSabado":"N",
+      "obsFim":"",
+      "Erro":"",
+      "MsgErro":"",
+      "valorTotal":"28,23"
+   }
+]
+
+```
 
 
 ## Frete v1

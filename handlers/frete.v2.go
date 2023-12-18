@@ -3,12 +3,17 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
+	"os"
 
 	"github.com/jeffotoni/gocorreio.frete/models"
 	fretev2 "github.com/jeffotoni/gocorreio.frete/pkg/frete.v2"
 	"github.com/jeffotoni/gocorreio.frete/pkg/prazo"
 	"github.com/jeffotoni/gocorreio.frete/pkg/preco"
 	"github.com/jeffotoni/gocorreio.frete/pkg/util"
+)
+
+var (
+	DISABLE_APP_LOG = os.Getenv("DISABLE_APP_LOG")
 )
 
 func Fretev2(w http.ResponseWriter, r *http.Request) {
@@ -66,6 +71,10 @@ func Fretev2(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(err.Error()))
 		return
+	}
+
+	if DISABLE_APP_LOG == "true" {
+		util.PrintReqRespFretev2(&gf, resultPrazo, resultPreco)
 	}
 
 	w.WriteHeader(http.StatusOK)
